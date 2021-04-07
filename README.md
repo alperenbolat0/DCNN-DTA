@@ -4,7 +4,7 @@ This document is about the study prepared as a project for the Bioinformatic cou
 
 By Alperen Bolat
 
- ![test image size](https://github.com/alperenbolat0/DCNN-DTA/blob/master/docs/figures/bioenformatic%20figure%202.png){:height="50%" width="50%"}
+ <img src="https://github.com/alperenbolat0/DCNN-DTA/blob/master/docs/figures/bioenformatic%20figure%202.png" width="100" height="100">
 # Installation
 
 ## Data
