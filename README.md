@@ -1,6 +1,6 @@
 #  DCCN-DTA: deep drug-target binding affinity prediction
 
-This document is about the study prepared as a project for the Bioinformatic course at TOBB ETU University.this project uses DeepDTA's datasets and subsystems. The motivation of the project is to suggest a more successful and efficient deep learning model.
+This document is  prepared as a project for the Bioinformatic course at TOBB ETU University.this project uses DeepDTA's datasets and subsystems. The motivation of the project is to suggest a more successful and efficient deep learning model.
 
 By Alperen Bolat
 
