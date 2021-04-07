@@ -4,7 +4,7 @@ This document is about the study prepared as a project for the Bioinformatic cou
 
 By Alperen Bolat
 
-![Figure](https://github.com/hkmztrk/DeepDTA/blob/master/docs/figures/deepdta.PNG)
+![Figure](https://github.com/hkmztrk/DeepDTA/blob/master/docs/figures/bioenformatic figure 2.png)
 # Installation
 
 ## Data
