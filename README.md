@@ -1,6 +1,8 @@
-# About DeepDTA: deep drug-target binding affinity prediction
+#  DCCN-DTA: deep drug-target binding affinity prediction
 
-The approach used in this work is the modeling of protein sequences and compound 1D representations (SMILES) with convolutional neural networks (CNNs) to predict the binding affinity value of drug-target pairs.
+This document is about the study prepared as a project for the Bioinformatic course at TOBB ETU University.this project uses DeepDTA's datasets and subsystems. The motivation of the project is to suggest a more successful and efficient deep learning model.
+
+By Alperen Bolat
 
 ![Figure](https://github.com/hkmztrk/DeepDTA/blob/master/docs/figures/deepdta.PNG)
 # Installation
