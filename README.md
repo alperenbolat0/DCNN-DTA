@@ -20,6 +20,7 @@ You'll need to install following in order to run the codes.
 *  [Tensorflow 1.x](https://www.tensorflow.org/install/)
 *  numpy
 *  matplotlib
+* 
 
 You have to place "data" folder under "source" directory. 
 
