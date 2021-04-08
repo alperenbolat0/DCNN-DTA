@@ -50,10 +50,8 @@ from copy import deepcopy
 from sklearn import preprocessing
 ###
 
-
 TABSY = "\t"
 figdir = "figures/"
-
 
 def build_combined_categorical(FLAGS, NUM_FILTERS, FILTER_LENGTH1, FILTER_LENGTH2):
 
@@ -86,25 +84,20 @@ def build_combined_categorical(FLAGS, NUM_FILTERS, FILTER_LENGTH1, FILTER_LENGTH
     encode_protein = GlobalMaxPooling1D()(encode_protein)
     encode_protein = Dropout(0.3)(encode_protein)
 
-
     encode_interaction = keras.layers.concatenate([encode_smiles, encode_protein], axis=-1) #merge.Add()([encode_smiles, encode_protein])
 
-    # Fully connected
     FC1 = Dense(1024, activation='relu')(encode_interaction)
     FC2 = Dropout(0.1)(FC1)
-    FC2 = Dense(1024, activation='relu')(FC1)
-    FC2 = Dropout(0.1)(FC2)
-    FC2 = Dense(512, activation='relu')(FC2)
-    FC2 = Dropout(0.1)(FC2)
-    FC2 = Dense(512, activation='relu')(FC2)
-    FC2 = Dropout(0.1)(FC2)
-    FC2 = Dense(512, activation='relu')(FC2)
+    FC2 = Dense(1024, activation='relu')(FC2)
+    FC3 = Dropout(0.1)(FC2)
+    FC3 = Dense(512, activation='relu')(FC3)
+    FC4 = Dropout(0.1)(FC3)
+    FC4 = Dense(512, activation='relu')(FC4)
+    FC5 = Dropout(0.1)(FC4)
+    FC5 = Dense(512, activation='relu')(FC5)
 
-
-
-
-# And add a logistic regression on top
-    predictions = Dense(1, kernel_initializer='normal')(FC2) #OR no activation, rght now it's between 0-1, do I want this??? activation='sigmoid'
+    # And add a logistic regression on top
+    predictions = Dense(1, kernel_initializer='normal')(FC5) #OR no activation, rght now it's between 0-1, do I want this??? activation='sigmoid'
 
     interactionModel = Model(inputs=[XDinput, XTinput], outputs=[predictions])
 
@@ -115,39 +108,12 @@ def build_combined_categorical(FLAGS, NUM_FILTERS, FILTER_LENGTH1, FILTER_LENGTH
     return interactionModel
 
 
-def build_baseline(FLAGS, NUM_FILTERS, FILTER_LENGTH1, FILTER_LENGTH2):
-    interactionModel = Sequential()
-
-    XDmodel = Sequential()
-    XDmodel.add(Dense(1, activation='linear', input_shape=(FLAGS.drug_count, )))
-
-    XTmodel = Sequential()
-    XTmodel.add(Dense(1, activation='linear', input_shape=(FLAGS.target_count,)))
-
-
-    interactionModel.add(Merge([XDmodel, XTmodel], mode='concat', concat_axis=1))
-
-    # Fully connected
-    interactionModel.add(Dense(1024, activation='relu'))
-    interactionModel.add(Dropout(0.5))
-    interactionModel.add(Dense(1024, activation='relu'))
-    interactionModel.add(Dropout(0.5))
-    interactionModel.add(Dense(512, activation='relu'))
-
-    interactionModel.add(Dense(1, kernel_initializer='normal'))
-    interactionModel.compile(optimizer='adam', loss='mean_squared_error', metrics=[cindex_score])
-
-    print(interactionModel.summary())
-    plot_model(interactionModel, to_file='figures/build_baseline.png')
-
-    return interactionModel
-
 def nfold_1_2_3_setting_sample(XD, XT,  Y, label_row_inds, label_col_inds, measure, runmethod,  FLAGS, dataset):
 
     bestparamlist = []
     test_set, outer_train_sets = dataset.read_sets(FLAGS)
 
-    foldinds = 1#blen(outer_train_sets) #Testing only first fold for temp
+    foldinds = len(outer_train_sets) #1 this parameter #Testing only first fold for temp
 
     test_sets = []
     ## TRAIN AND VAL
@@ -167,7 +133,6 @@ def nfold_1_2_3_setting_sample(XD, XT,  Y, label_row_inds, label_col_inds, measu
         print("train set", str(len(otherfoldsinds)))
 
 
-
     bestparamind, best_param_list, bestperf, all_predictions_not_need, losses_not_need = general_nfold_cv(XD, XT,  Y, label_row_inds, label_col_inds,
                                                                                                           measure, runmethod, FLAGS, train_sets, val_sets)
 
@@ -175,13 +140,11 @@ def nfold_1_2_3_setting_sample(XD, XT,  Y, label_row_inds, label_col_inds, measu
     #print("Outer Train Set len", str(len(outer_train_sets)))
     bestparam, best_param_list, bestperf, all_predictions, all_losses = general_nfold_cv(XD, XT,  Y, label_row_inds, label_col_inds,
                                                                                          measure, runmethod, FLAGS, train_sets, test_sets)
-
     testperf = all_predictions[bestparamind]##pointer pos
 
     logging("---FINAL RESULTS-----", FLAGS)
     logging("best param index = %s,  best param = %.5f" %
             (bestparamind, bestparam), FLAGS)
-
 
     testperfs = []
     testloss= []
@@ -205,7 +168,6 @@ def nfold_1_2_3_setting_sample(XD, XT,  Y, label_row_inds, label_col_inds, measu
     logging(testloss, FLAGS)
 
     return avgperf, avgloss, teststd
-
 
 
 
